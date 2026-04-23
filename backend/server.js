@@ -1,4 +1,5 @@
 import express, { request, response } from "express";
+import cors from "cors";
 
 const app = express();
 const porta = 8000;
@@ -14,6 +15,9 @@ let idAtual = 0;
 
 // converter todo* .json para .js
 app.use(express.json())
+app.use(cors({
+    origin: "http://127.0.0.1:5500"
+}));
 
 // ---            ---
 
@@ -157,5 +161,5 @@ app.delete("/usuarios/:id", (request,response) => {
 });
 
 app.listen(porta,(request,response) =>{
-    console.log(`servidor rodando: http://127.0.0.1:${porta}`);
+    console.log(`servidor rodando: http://127.0.0.1:${porta} ✔`);
 });
