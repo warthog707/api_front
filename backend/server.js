@@ -6,7 +6,7 @@ const porta = 8000;
 // --- bd* ---
 
 let usuarios = [];
-let idAtual = 0;
+let idAtual = 1;
 
 // ---    ---
 

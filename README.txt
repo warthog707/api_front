@@ -1,4 +1,7 @@
-SetExecutionPolicy Unrestricted
+# comandos
+# powershell
+- SetExecutionPolicy Unrestricted
 
-npm install
-npm install cors
+# cd backend
+- npm install
+- npm install cors
