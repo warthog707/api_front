@@ -4,6 +4,7 @@ let btnCriar = document.getElementById("botao-criar");
 const lista = document.getElementById("lista");
 const inputId = document.getElementById("id-usuario");
 
+
 inputId.addEventListener("change", async function(){
     if (inputId.value){
         await carregarUsuarioID(inputId.value);
@@ -15,6 +16,7 @@ inputId.addEventListener("change", async function(){
 
 btnCriar.addEventListener("click", async function (){
     try {
+
         let nome = document.getElementById("nome").value;
         let email = document.getElementById("email").value;
 
@@ -23,9 +25,6 @@ btnCriar.addEventListener("click", async function (){
             return;
         }
 
-        document.getElementById("nome").value = "";
-        document.getElementById("nome").value = "";
-        
         alert("cadastrado");
 
         await fetch( API, {
@@ -33,6 +32,10 @@ btnCriar.addEventListener("click", async function (){
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({nome,email}),
         });
+
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+
         await listarUsuarios();
     } catch (error) {
         console.log("error: "+ error);
@@ -63,21 +66,63 @@ async function carregarUsuarioID(id) {
 }
 
 
-
+//EDITAR
 function editar(id, nome, email){
     document.getElementById("nome").value = nome;
     document.getElementById("email").value = email;
 
     const botao = document.createElement("button");
 
-    // continua...
+    botao.setAttribute('id','confirmar-edicao');
+
+    botao.innerText = "salvar";
+
+    botao.addEventListener("click", async function(){
+        await atualizarUsuario(id);
+    });
+
+    document.body.appendChild(botao);
 }
+
+//ALTERAR NOME
+function alterarNome(id,nome){
+
+}
+
+//DELETAR
+async function deletarUsuario(id){
+
+    await fetch(`${API}/${id}`,{
+        method:"DELETE",
+    });
+
+    await listarUsuarios();
+
+}
+
+//PUT
+async function atualizarUsuario(id) {
+    document.getElementById("confirmar-edicao").remove();
+
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+
+
+    await fetch(`${API}/${id}`,{
+        method:"PUT",
+        headers:{"Content-Type": "application/json"},
+        body:JSON.stringify({nome,email}),
+    });
+
+    await carregarUsuarioID(id);
+}
+
 
 function renderizarUsuarios(usuario){
     const li = document.createElement("li");
         li.innerHTML = `
             ${usuario.nome} - ${usuario.email}
-            <button onclick="editar(${usuario.id},${usuario.nome},${usuario.email},)">Editar</button>
+            <button onclick="editar(${usuario.id},'${usuario.nome}','${usuario.email}',)">Editar</button>
             <button onclick="patchUsuario(${usuario.id})">alterar nome</button>
             <button onclick="deletarUsuario(${usuario.id})">deletar</button>
         `;
