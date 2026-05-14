@@ -1,6 +1,6 @@
 # comandos
 # powershell
-- SetExecutionPolicy Unrestricted
+- Set-ExecutionPolicy Unrestricted
 
 # cd backend
 - npm install
